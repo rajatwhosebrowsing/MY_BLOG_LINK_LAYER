@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Link Layer: Network Communication Fundamentals</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.7;
+      color: #2d3748;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 25px;
+    }
+    
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: white;
+      padding: 45px;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 25px;
+      border-bottom: 3px solid #667eea;
+    }
+    
+    h1 {
+      color: #667eea;
+      font-size: 2.5em;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      color: #4a5568;
+      font-size: 1.2em;
+      margin: 12px 0;
+    }
+    
+    .author {
+      color: #718096;
+      font-size: 1em;
+      margin-top: 15px;
+      font-style: italic;
+    }
+    
+    h2 {
+      color: #764ba2;
+      font-size: 2em;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    h3 {
+      color: #667eea;
+      font-size: 1.5em;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    
+    h4 {
+      color: #764ba2;
+      font-size: 1.2em;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      margin-bottom: 18px;
+      text-align: justify;
+      font-size: 1.02em;
+    }
+    
+    .intro-section {
+      background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+      padding: 25px;
+      border-left: 4px solid #667eea;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    
+    .concept-box {
+      background: #f7fafc;
+      padding: 22px;
+      border-radius: 8px;
+      margin: 22px 0;
+      border-left: 4px solid #764ba2;
+    }
+
+    .definition-box {
+      background: #fff5f5;
+      padding: 18px;
+      border-radius: 8px;
+      margin: 15px 0;
+      border-left: 4px solid #e53e3e;
+    }
+
+    .definition-box h4 {
+      color: #c53030;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .definition-box p {
+      margin-bottom: 0;
+      font-size: 0.98em;
+    }
+    
+    .image-container {
+      text-align: center;
+      margin: 25px 0;
+      padding: 20px;
+      background: #f7fafc;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .image-caption {
+      margin-top: 12px;
+      font-size: 0.95em;
+      color: #4a5568;
+      font-style: italic;
+    }
+    
+    .tech-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+    
+    .tech-card {
+      background: white;
+      padding: 22px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .tech-card h4 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 1.2em;
+    }
+
+    .case-study {
+      background: #fffaf0;
+      padding: 25px;
+      border-left: 4px solid #dd6b20;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+
+    .case-study h3 {
+      color: #7c2d12;
+      margin-top: 0;
+    }
+    
+    .takeaway-section {
+      background: #f0fff4;
+      padding: 25px;
+      border-left: 4px solid #38a169;
+      margin: 25px 0;
+      border-radius: 6px;
+    }
+    
+    .takeaway-section h3 {
+      color: #22543d;
+      margin-top: 0;
+    }
+    
+    .takeaway-section ul {
+      margin-left: 25px;
+      margin-top: 15px;
+    }
+    
+    .takeaway-section li {
+      margin-bottom: 10px;
+      color: #276749;
+    }
+    
+    .references {
+      background: #f7fafc;
+      padding: 25px;
+      margin-top: 35px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .references h2 {
+      margin-top: 0;
+    }
+    
+    .references ul {
+      list-style-type: none;
+      margin-left: 0;
+    }
+    
+    .references li {
+      margin-bottom: 12px;
+      padding-left: 25px;
+      position: relative;
+    }
+    
+    .references li:before {
+      content: "📚";
+      position: absolute;
+      left: 0;
+    }
+    
+    .references a {
+      color: #667eea;
+      text-decoration: none;
+      border-bottom: 1px dashed #667eea;
+      transition: all 0.3s ease;
+    }
+    
+    .references a:hover {
+      color: #764ba2;
+      border-bottom: 1px solid #764ba2;
+    }
+    
+    a.term {
+      color: #667eea;
+      text-decoration: none;
+      border-bottom: 1px dotted #667eea;
+      transition: all 0.2s ease;
+    }
+    
+    a.term:hover {
+      color: #764ba2;
+      border-bottom: 1px solid #764ba2;
+      background-color: rgba(102, 126, 234, 0.1);
+    }
+    
+    strong {
+      color: #764ba2;
+      font-weight: 600;
+    }
+    
+    ul {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+    
+    li {
+      margin-bottom: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+      
+      .tech-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>The Link Layer: Foundations of Reliable Communication</h1>
+      <p class="subtitle">Unit 5 — Link layer basics, error detection & correction, MAC protocols, Link Layer Technologies</p>
+      <p class="author">Author: Rajat Dwivedi | PRN: 23070126100 | Draft: Blog</p>
+    </header>
+
+    <section>
+      <h2>1. Introduction - Why Link Layer Matters</h2>
+      <div class="intro-section">
+        <p>
+          The <a href="https://www.geeksforgeeks.org/layers-of-osi-model/" class="term" target="_blank">link layer (Layer 2)</a> handles <strong>node-to-node data transfer</strong> between directly connected devices. It transforms raw <a href="https://www.geeksforgeeks.org/physical-layer-in-osi-model/" class="term" target="_blank">physical layer</a> bits into structured frames with addressing, error detection, and access control—enabling your computer to communicate with your router and other local network devices.
+        </p>
+      </div>
+
+      <div class="image-container">
+        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20230417045622/OSI-vs-TCP-vs-Hybrid-2.webp" alt="OSI Model Layers">
+        <p class="image-caption">The Link Layer operates at Layer 2 of the OSI model</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Main Content - Core Concepts</h2>
+
+      <h3>Framing and Addressing</h3>
+      <p>
+        The link layer <a href="https://www.geeksforgeeks.org/framing-in-data-link-layer/" class="term" target="_blank">encapsulates packets into frames</a> containing header (source/destination <a href="https://www.geeksforgeeks.org/mac-address-in-computer-network/" class="term" target="_blank">MAC addresses</a>), payload (data), and trailer (error detection).
+      </p>
+
+      <div class="image-container">
+        <img src="Ethernet-Frame-Format-IEEE-802.3.webp" alt="Ethernet Frame Structure">
+        <p class="image-caption">Ethernet frame structure with MAC addresses and CRC</p>
+      </div>
+
+      <h3>Error Detection</h3>
+      <p>Physical transmission introduces errors. The link layer detects these using:</p>
+
+      <div class="definition-box">
+        <h4>Parity Check</h4>
+        <p>Adds a bit to make total 1s even/odd. Detects single-bit errors only.</p>
+      </div>
+
+      <div class="definition-box">
+        <h4>Checksum</h4>
+        <p>Sums data segments and compares at receiver. Used in TCP/UDP.</p>
+      </div>
+
+      <div class="definition-box">
+        <h4>Cyclic Redundancy Check (CRC)</h4>
+        <p>Uses <a href="https://www.geeksforgeeks.org/cyclic-redundancy-check-in-computer-network/" class="term" target="_blank">polynomial division</a> to generate a checksum. Most powerful method used in Ethernet and Wi-Fi.</p>
+      </div>
+
+      <div class="image-container">
+        <img src="Error-Detection-Techniques.png" alt="Error Detection Methods">
+        <p class="image-caption">Comparison of error detection techniques</p>
+      </div>
+
+      <h3>Medium Access Control (MAC) Protocols</h3>
+      <p>
+        <a href="https://www.geeksforgeeks.org/multiple-access-protocols-in-computer-network/" class="term" target="_blank">MAC protocols</a> coordinate channel access to prevent collisions.
+      </p>
+
+      <h4>Channel Partitioning</h4>
+      <div class="concept-box">
+        <p><strong>TDMA:</strong> Time slots for each device. <strong>FDMA:</strong> Frequency bands for each device.</p>
+      </div>
+
+      <h4>Random Access</h4>
+      
+      <div class="definition-box">
+        <h4>CSMA/CD (Collision Detection)</h4>
+        <p>Used in <a href="https://www.geeksforgeeks.org/collision-detection-csmacd/" class="term" target="_blank">traditional Ethernet</a>. Detects collisions, stops transmission, retries after random backoff.</p>
+      </div>
+
+      <div class="definition-box">
+        <h4>CSMA/CA (Collision Avoidance)</h4>
+        <p>Used in <a href="https://www.geeksforgeeks.org/collision-avoidance-in-wireless-networks/" class="term" target="_blank">Wi-Fi</a>. Uses acknowledgments and <a href="https://www.geeksforgeeks.org/rts-cts-rtsctsdata-csma/" class="term" target="_blank">RTS/CTS</a> to reserve channel.</p>
+      </div>
+
+      <div class="image-container">
+        <img src="EN-CSMA-CD-schema.png" alt="CSMA/CD Protocol">
+        <p class="image-caption">CSMA/CD protocol showing collision detection and exponential backoff</p>
+      </div>
+
+      <h4>Taking Turns</h4>
+      <div class="concept-box">
+        <p><strong>Polling:</strong> Master node invites slaves to transmit. <strong>Token Passing:</strong> Token holder transmits.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Link Layer Technologies</h2>
+
+      <div class="tech-section">
+        <div class="tech-card">
+          <h4><a href="https://www.geeksforgeeks.org/what-is-ethernet/" class="term" target="_blank">Ethernet (802.3)</a></h4>
+          <p>
+            Wired LAN using switches for full-duplex communication. Speeds: 10 Mbps to 400 Gbps.
+          </p>
+        </div>
+        
+        <div class="tech-card">
+          <h4><a href="https://www.geeksforgeeks.org/basics-of-wi-fi/" class="term" target="_blank">Wi-Fi (802.11)</a></h4>
+          <p>
+            Wireless LAN on 2.4/5/6 GHz. Uses CSMA/CA for channel access.
+          </p>
+        </div>
+
+        <div class="tech-card">
+          <h4><a href="https://www.geeksforgeeks.org/docsis-data-over-cable-service-interface-specification/" class="term" target="_blank">DOCSIS</a></h4>
+          <p>
+            Internet over cable TV infrastructure. Uses TDMA upstream, TDM downstream.
+          </p>
+        </div>
+      </div>
+
+      <div class="image-container">
+        <img src="Ethernet+vs+WiFi+Differences.webp" alt="Ethernet vs WiFi">
+        <p class="image-caption">Wired Ethernet vs Wireless Wi-Fi architectures</p>
+      </div>
+
+      <h3>Virtual LANs (VLANs)</h3>
+      <p>
+        <a href="https://www.geeksforgeeks.org/virtual-lan-vlan/" class="term" target="_blank">VLANs</a> logically segment networks using <a href="https://www.geeksforgeeks.org/ieee-802-1q-vlan-tagging/" class="term" target="_blank">802.1Q tags</a>. Devices on different VLANs need a router to communicate, providing security and broadcast isolation.
+      </p>
+
+      <div class="image-container">
+        <img src="VLAN-Config-02.png" alt="VLAN Configuration">
+        <p class="image-caption">VLAN configuration showing logical network segmentation</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Real-World Application</h2>
+      <div class="case-study">
+        <h3>Case Study: Home Network Communication</h3>
+        <p>
+          When browsing a website via Wi-Fi:
+        </p>
+        <ol>
+          <li><strong>Framing:</strong> Laptop encapsulates HTTP request with its MAC address (source) and router's MAC (destination)</li>
+          <li><strong>Medium Access:</strong> CSMA/CA checks channel is idle before transmitting</li>
+          <li><strong>Error Detection:</strong> CRC checksum included; router discards if corrupted</li>
+          <li><strong>Acknowledgment:</strong> Router sends ACK; TCP handles retransmission if needed</li>
+        </ol>
+        <p>
+          This process repeats at each hop: laptop → router → ISP → web server.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="takeaway-section">
+        <h3>5. Key Takeaways</h3>
+        <ul>
+          <li><strong>Link layer provides node-to-node communication</strong> using frames with MAC addresses</li>
+          <li><strong>Error detection</strong> (parity, checksum, CRC) identifies corrupted frames—upper layers handle retransmission</li>
+          <li><strong>MAC protocols:</strong> Channel partitioning (TDMA/FDMA), random access (CSMA/CD, CSMA/CA), taking turns (polling/token)</li>
+          <li><strong>Ethernet uses switches</strong> for full-duplex; <strong>Wi-Fi uses CSMA/CA</strong> for collision avoidance</li>
+          <li><strong>Technologies like Ethernet, Wi-Fi, and DOCSIS</strong> implement link layer for different media</li>
+          <li><strong>VLANs provide logical segmentation</strong> for security and broadcast control</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="references">
+      <h2>References</h2>
+      <ul>
+        <li><a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Kurose & Ross - Computer Networking: A Top-Down Approach</a></li>
+        <li><a href="https://standards.ieee.org/ieee/802.3/10422/" target="_blank">IEEE 802.3 Ethernet Standards</a></li>
+        <li><a href="https://standards.ieee.org/ieee/802.11/7028/" target="_blank">IEEE 802.11 Wireless LAN Standards</a></li>
+        <li><a href="https://www.geeksforgeeks.org/multiple-access-protocols-in-computer-network/" target="_blank">GeeksforGeeks - Multiple Access Protocols</a></li>
+        <li><a href="https://www.geeksforgeeks.org/error-detection-in-computer-networks/" target="_blank">GeeksforGeeks - Error Detection in Computer Networks</a></li>
+      </ul>
+    </section>
+
+  </div>
+</body>
+</html>
